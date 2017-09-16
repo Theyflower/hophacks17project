@@ -39,25 +39,15 @@ if __name__ == "__main__":
         for handle in handles:
             tid = pytweet.get_id_from_handle(handle)
             if tid != None:
-                bullies.append(tid)
+                bullies.append([tid,pytweet.get_latest_tweet(tid)])
     print("done processing dms, here are the bullies:",bullies)
-    # get tweets
-    try:
-        f = open("latest_tweet", mode='r')
-        latest_tweet = int(f.read())
-    except:
-        latest_tweet = 1
 
+    # get tweets
     tweets = []
     for bully in bullies:
-        print("getting tweets from bully id",bully)
-        tweets = tweets + pytweet.get_tweets(bully, latest_tweet)
+        print("getting tweets from bully id",bully[0])
+        tweets = tweets + pytweet.get_tweets(bully[0], bully[1])
 
-    try:
-        f = open("latest_tweet", mode="w")
-        f.write(str(latest_tweet))
-    except:
-        pass
 
     # process and reply to abusive tweets
     print("processing tweets, replying to tweets detected as abusive")

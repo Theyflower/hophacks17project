@@ -39,10 +39,21 @@ def get_tweets(bully, latest_tweet):
         returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
     '''
     try:
-        return api.user_timeline(user_id=bully, since_id=latest_tweet)
+        return api.user_timeline(user_id=bully, since_id=latest_tweet, count=1)
     except:
         pass
 
+def get_latest_tweet(bully):
+    '''
+    preconditions:
+        @param bully is the twitter id of a bully
+    postconditions:
+        returns the id of the bully's most recent tweet
+    '''
+    try:
+        return api.user_timeline(user_id=bully, since_id=latest_tweet)[0]['id']
+    except:
+        pass
 
 def reply_to(status):
     '''

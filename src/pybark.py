@@ -27,7 +27,7 @@ def woof(BARK_TOKEN, message):
 		If the preconditions are met it will return the Bark Patner API's appraisal of @param message
 		Otherwise it returns the HTTP Status Code of the request
 	'''
-	url = "https://partner.bark.us/api/v1/messages"
+	url = "https://www.bark.us/api/v2/developers/messages"
 	headers = {"Content-Type" : "application/json; charset=utf-8",
 				"X-Token-Auth" : BARK_TOKEN}
 	data = {"message" : message}

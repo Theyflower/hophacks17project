@@ -23,5 +23,6 @@ from bark_config import BARK_TOKEN
 
 def check_message(message):
     resp = pybark.woof(BARK_TOKEN, message)
+    return resp
     resp = json.loads(resp)
     return resp['results']['cyberbullying']['abusive']

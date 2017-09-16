@@ -31,14 +31,17 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
 
-def get_tweets(bully):
+def get_tweets(bully, latest_tweet):
     '''
     preconditions:
         @param bully is the twitter id of a bully
     postconditions:
         returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
     '''
-    return api.user_timeline(user_id=bully)
+    try:
+        return api.user_timeline(user_id=bully, since_id=latest_tweet)
+    except:
+        pass
 
 
 def reply_to(status):
@@ -49,7 +52,11 @@ def reply_to(status):
         replies to status with a tweet containing an anti-bullying slogan and a sad meme
     '''
     tweet_id = status['id'] #this variable contains the id of the tweepy status object
-    api.update_status("don't be a bully",in_reply_to_status_id=tweet_id)
+    try:
+        api.update_status("@{} don't be a bully".format(status['user']['screen_name']),in_reply_to_status_id=tweet_id)
+    except:
+        pass
+
 
 def get_id_from_handle(handle):
     '''
@@ -63,6 +70,7 @@ def get_id_from_handle(handle):
         return user['id']
     except:
         return None
+
 
 def get_dms():
     try:

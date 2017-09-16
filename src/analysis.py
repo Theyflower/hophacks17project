@@ -35,7 +35,7 @@ def check_message(message):
     power_level = [resp['abusive'],resp['results']['sentiment'] in ["VERY_NEGATIVE", "NEGATIVE"]]
     bad_varname = ["profanity", "cyberbullying"]
     power_level = power_level + [resp['results'][i]['abusive'] for i in bad_varname]
-    return sum(power_level) >=3
+    return sum(power_level) >=2
 
 def find_handle(message):
     '''

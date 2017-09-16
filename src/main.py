@@ -59,20 +59,17 @@ if __name__ == "__main__":
     except:
         pass
 
-    # process tweets
-    print("processing tweets")
-    reply_to_these = []
+    # process and reply to abusive tweets
+    print("processing tweets, replying to tweets detected as abusive")
+
     for tweet in tweets:
         if analysis.check_message(tweet['text']):
             print("abusive tweet:",tweet['text'])
-            reply_to_these.append(tweet)
+            print("replying to tweet with id of",tweet['id'])
+            pytweet.reply_to(tweet)
         else:
             print("acceptable tweet:",tweet['text'])
 
-    # reply to tweets
-    for tweet in reply_to_these:
-        print("replying to tweet with id of",tweet['id'])
-        pytweet.reply_to(tweet)
 
     #save the bully list
     try:

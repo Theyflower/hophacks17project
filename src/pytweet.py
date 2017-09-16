@@ -1,4 +1,5 @@
 import twitter_config
+import analysis
 
 import tweepy
 
@@ -13,5 +14,16 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 
-def getTweets():
+def get_tweets():
     api.user_timeline(user_id)
+
+def reply_to(tweet):
+    '''
+    replies to the given tweet with a sad meme and a message along te lines of "don't bully"
+    '''
+    pass
+
+tweets = get_tweets()
+for tweet in tweets:
+    if analysis.check_message(tweet.text):
+        reply_to(tweet)

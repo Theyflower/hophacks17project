@@ -13,4 +13,3 @@ api = tweepy.API(auth)
 
 def getTweets():
     api.user_timeline(user_id)
-

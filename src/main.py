@@ -38,7 +38,7 @@ if __name__ == "__main__":
         handles = analysis.find_handle(dm['text'])
         for handle in handles:
             tid = pytweet.get_id_from_handle(handle)
-            if tid != None and tid not in bullies.keys()]:
+            if tid != None and tid not in bullies.keys():
                 bullies[tid] = pytweet.get_latest_tweet(tid)
     print("done processing dms, here are the bullies:",bullies)
 

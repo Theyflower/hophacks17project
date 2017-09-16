@@ -1,4 +1,4 @@
-import twitter_config, analysis
+import twitter_config, analysis, json
 
 import tweepy
 
@@ -24,12 +24,25 @@ def reply_to(tweet):
 
 def getDms():
     dms = api.direct_messages()
-    for dm in dms:
-        handle = analysis.find_handle(dm)
-        print(handle)
+
+    return dms
 
 
-getDms()
+
+def getLatestDm(messages):
+    latest = messages[0]
+    print(latest)
+    # for text in latest:
+    #     print(text)
+        # handles = analysis.find_handle(text)
+        # if handles:
+        #     for handle in handles:
+        #           print(handle)
+
+
+dms = getDms()
+getLatestDm(dms)
+
 
 # tweets = getTweets()
 # for tweet in tweets:

@@ -10,15 +10,23 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
-def getTweets():
-    tweets = api.user_timeline('BlakeJoynes8')
-    return tweets
-
-def reply_to(tweet):
+def get_tweets(bullies):
     '''
-    replies to the given tweet with a sad meme and a message along te lines of "don't bully"
+    preconditions:
+        @param bullies is an iterable containing the twitter ids (numerical) of users
+    postconditions:
+        returns a tuple of tweepy status objects consisting of undigested tweets made by the users specified in bullies
     '''
     pass
+
+def reply_to(status):
+    '''
+    preconditions:
+        @param status is a tweepy status object
+    postconditions:
+        replies to status with a tweet containing an anti-bullying slogan and a sad meme
+    '''
+    tweet_id = status.id #this variable contains the id of the tweepy status object
 
 def getDms():
     dms = api.direct_messages()

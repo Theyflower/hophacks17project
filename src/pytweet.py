@@ -38,7 +38,7 @@ def get_tweets(bully):
     postconditions:
         returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
     '''
-    pass
+    return api.user_timeline(user_id=bully)
 
 
 def reply_to(status):
@@ -49,6 +49,7 @@ def reply_to(status):
         replies to status with a tweet containing an anti-bullying slogan and a sad meme
     '''
     tweet_id = status.id #this variable contains the id of the tweepy status object
+    api.update_status("don't be a bully",in_reply_to_status_id=status_id)
 
 def get_id_from_handle(handle):
     '''

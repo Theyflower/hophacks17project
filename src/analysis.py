@@ -27,5 +27,8 @@ def check_message(message):
     return resp['results']['cyberbullying']['abusive']
 
 def find_handle(status):
-    handle = status["sender_screen_name"]
-    return handle
+    sender = status["sender_screen_name"]
+    recipient = status["recipient_screen_name"]
+
+    users = ("Sender: {}".format(sender),"Recipient: {}".format(recipient))
+    return users

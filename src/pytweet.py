@@ -10,7 +10,7 @@ access_token_secret = twitter_config.ACCESS_TOKEN_SECRET
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-api = tweepy.API(auth)
+api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
 def getTweets():
     tweets = api.user_timeline('BlakeJoynes8')
@@ -22,7 +22,19 @@ def reply_to(tweet):
     '''
     pass
 
-tweets = getTweets()
-for tweet in tweets:
-    if analysis.check_message(tweet.text):
-        reply_to(tweet)
+def getDms():
+    dms = api.direct_messages()
+
+    for dm in dms:
+        handle = analysis.find_handle(dm)
+        if handle:
+           print(handle)
+
+
+
+getDms()
+
+# tweets = getTweets()
+# for tweet in tweets:
+#     if analysis.check_message(tweet.text):
+#         reply_to(tweet)

@@ -1,4 +1,6 @@
-import twitter_config, tweepy,json
+import twitter_config
+
+import tweepy
 
 consumer_key = twitter_config.CONSUMER_KEY
 consumer_secret = twitter_config.CONSUMER_SECRET
@@ -11,10 +13,17 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 
-def getTweets(user_id, since_id):
+def getTweets():
     tweets = api.user_timeline('BlakeJoynes8')
     return tweets
 
-if __name__ == '__main__':
-    getTweets()
+def reply_to(tweet):
+    '''
+    replies to the given tweet with a sad meme and a message along te lines of "don't bully"
+    '''
+    pass
 
+tweets = get_tweets()
+for tweet in tweets:
+    if analysis.check_message(tweet.text):
+        reply_to(tweet)

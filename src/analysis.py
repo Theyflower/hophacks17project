@@ -26,4 +26,17 @@ def check_message(message):
     resp = json.loads(resp)
     return resp['results']['cyberbullying']['abusive']
 def find_handle(status):
-    pass
+    '''
+    preconditions:
+        @param status is a direct message
+    postconditions:
+        returns a tuple containing all of the twitter ids of any @handles given in the text of the direct message
+        example outputs:
+            () none given
+            (12312412424,232352,3134234) three given
+            (23123123123) one given
+    '''
+    text = status.text
+    words = text.split(" ")
+    handles = (word for word in words if word.startswith('@'))
+    #@todo(aaron): use tweepy to get ids of the handles

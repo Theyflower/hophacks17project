@@ -1,6 +1,4 @@
-import twitter_config, analysis, json
-
-import tweepy
+import twitter_config, analysis, tweepy
 
 consumer_key = twitter_config.CONSUMER_KEY
 consumer_secret = twitter_config.CONSUMER_SECRET
@@ -12,37 +10,32 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
-def getTweets():
-    tweets = api.user_timeline('BlakeJoynes8')
-    return tweets
-
-def reply_to(tweet):
+def get_tweets(bullies):
     '''
-    replies to the given tweet with a sad meme and a message along te lines of "don't bully"
+    preconditions:
+        @param bullies is an iterable containing the twitter ids (numerical) of users
+    postconditions:
+        returns a tuple of tweepy status objects consisting of undigested tweets made by the users specified in bullies
     '''
     pass
 
+def reply_to(status):
+    '''
+    preconditions:
+        @param status is a tweepy status object
+    postconditions:
+        replies to status with a tweet containing an anti-bullying slogan and a sad meme
+    '''
+    tweet_id = status.id #this variable contains the id of the tweepy status object
+
 def getDms():
     dms = api.direct_messages()
-
-    return dms
-
-
-
-def getLatestDm(messages):
-    latest = messages[0]
-    print(latest)
-    # for text in latest:
-    #     print(text)
-        # handles = analysis.find_handle(text)
-        # if handles:
-        #     for handle in handles:
-        #           print(handle)
+    for dm in dms:
+        handle = analysis.find_handle(dm)
+        print(handle)
 
 
-dms = getDms()
-getLatestDm(dms)
-
+getDms()
 
 # tweets = getTweets()
 # for tweet in tweets:

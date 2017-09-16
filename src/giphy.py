@@ -12,8 +12,10 @@ def random_sad_images():
 
 random_sad_images()
 
-ff = FFmpeg(
-	inputs={'https://i.imgur.com/4QDMDlY.jpg': None},
-	outputs={'output.gif': '-vf', 'drawtext="fontfile=/usr/share/fonts/default/Type1/n019003l.pfb:text="hey": fontcolor=white: fontsize=24: box=1: boxcolor=black@0.5:boxborderw=5: x=(w-text_w)/2: y=2"'}
+FFmpeg(
+	inputs={'https://i.giphy.com/media/10tIjpzIu8fe0/giphy.gif': None},
+	outputs={'output.gif': ["-vf", "drawtext=fontfile=/usr/share/fonts/default/Type1/n019003l.pfb:text='hey': fontcolor=white: fontsize=24: box=1: boxcolor=black@0.5:boxborderw=5: x=(w-text_w)/2: y=(h-text_h)-2", "-an"]}
 )
-ff.run()
+
+if __name__ == '__main__':
+    ff.run()

@@ -48,8 +48,8 @@ def reply_to(status):
     postconditions:
         replies to status with a tweet containing an anti-bullying slogan and a sad meme
     '''
-    tweet_id = status.id #this variable contains the id of the tweepy status object
-    api.update_status("don't be a bully",in_reply_to_status_id=status_id)
+    tweet_id = status['id'] #this variable contains the id of the tweepy status object
+    api.update_status("don't be a bully",in_reply_to_status_id=tweet_id)
 
 def get_id_from_handle(handle):
     '''
@@ -58,8 +58,11 @@ def get_id_from_handle(handle):
     postconditons:
         returns the numerical twitter id associated with that handle
     '''
-    user = api.get_user(screen_name=handle)
-    return user.id
+    try:
+        user = api.get_user(screen_name=handle)
+        return user['id']
+    except:
+        return None
 
 def get_dms():
     try:

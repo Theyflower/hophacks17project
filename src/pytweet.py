@@ -12,7 +12,14 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-def getTweets():
+def get_tweets(bullies):
+    '''
+    preconditions:
+        @param bullies is an iterable containing the twitter ids (numeric) of bullies
+    postconditions:
+        returns an iterable containing tweets not previously injested by the bot made by the bullies
+        it should include only replies to tweets made by other users and retweets of tweets made by other users
+    '''
     tweets = api.user_timeline('BlakeJoynes8')
     return tweets
 

@@ -1,4 +1,6 @@
-import twitter_config, analysis, tweepy
+import twitter_config
+
+import tweepy
 
 consumer_key = twitter_config.CONSUMER_KEY
 consumer_secret = twitter_config.CONSUMER_SECRET
@@ -10,6 +12,7 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
+
 def get_tweets(bullies):
     '''
     preconditions:
@@ -18,6 +21,7 @@ def get_tweets(bullies):
         returns a tuple of tweepy status objects consisting of undigested tweets made by the users specified in bullies
     '''
     pass
+
 
 def reply_to(status):
     '''

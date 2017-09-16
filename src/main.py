@@ -17,3 +17,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
+import pytweet
+import analysis
+
+import json
+if __name__ == "__main__":
+    #load saved bully list
+    try:
+        f = open("bullies", allmode='r')
+        bullies = json.load(f.read())
+    except:
+        bullies = []
+
+    # get dms
+    # process dms and add to bully list
+    # check tweets
+    # process tweets
+    # reply to tweets
+    #save the bully list
+    try:
+        f = open("bullies", mode='w')
+        f.write(json.dumps(bullies))
+    except:
+        pass

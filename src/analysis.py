@@ -22,13 +22,33 @@ import pybark
 from bark_config import BARK_TOKEN
 
 def check_message(message):
+    '''
+    preconditions:
+        @param message is a string
+    postconditions:
+        returns a boolean
+            True of the message is abusive
+            False if the message is not abusive
+    '''
     resp = pybark.woof(BARK_TOKEN, message)
     resp = json.loads(resp)
     return resp['results']['cyberbullying']['abusive']
 
 def find_handle(status):
-    sender = status["sender_screen_name"]
-    recipient = status["recipient_screen_name"]
-
-    users = ("Sender: {}".format(sender),"Recipient: {}".format(recipient))
-    return users
+    '''
+    preconditions:
+        @param status is a direct message
+    postconditions:
+        returns a tuple containing all of the twitter ids of any @handles given in the text of the direct message
+        returns a tuple containing all of the twitter  @handles given in the text of the direct message
+        example outputs:
+            () none given
+            (12312412424,232352,3134234) three given
+            (23123123123) one given
+            (@aaron_the_king,@jack) two
+            (@aaron_the_king) one given
+    '''
+    text = status.text
+    words = text.split(" ")
+    handles = (word for word in words if word.startswith('@'))
+    return handles

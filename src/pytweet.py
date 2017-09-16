@@ -1,6 +1,4 @@
-import twitter_config, analysis
-
-import tweepy
+import twitter_config, analysis, tweepy
 
 consumer_key = twitter_config.CONSUMER_KEY
 consumer_secret = twitter_config.CONSUMER_SECRET

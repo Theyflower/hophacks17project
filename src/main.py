@@ -30,10 +30,31 @@ if __name__ == "__main__":
         bullies = []
 
     # get dms
+    dms = pytweet.get_dms()
+
     # process dms and add to bully list
-    # check tweets
+        for dm in dms:
+            handles = analysis.find_handle()
+            for handle in handles:
+                tid = pytweet.get_id_from_handle(handle)
+                if tid != None:
+                    bullies.add(tid)
+
+    # get tweets
+    tweets = []
+    for bully in bullies:
+        tweets = tweets + get_tweets(bully)
+
     # process tweets
+    reply_to_these = []
+    for tweet in tweets:
+        if check_message(tweet.text):
+            reply_to_these.append(tweet)
+
     # reply to tweets
+    for tweet in reply_to_these:
+        pytweet.reply_to(tweet)
+
     #save the bully list
     try:
         f = open("bullies", mode='w')

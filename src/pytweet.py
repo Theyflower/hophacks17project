@@ -29,25 +29,22 @@ def reply_to(status):
     tweet_id = status.id #this variable contains the id of the tweepy status object
 
 
-def getDms():
-    dms = api.direct_messages()
+def get_dms():
+    try:
+        f = open("latest_dm", mode='r')
+        latest_dm = int(f.read())
+    except:
+        latest_dm = 0
+
+    dms = api.direct_messages(since_id=latest_tweet)
+
+    try:
+        f = open("latest_dm", mode="w")
+        f.write(latest_dm)
 
     return dms
 
 
-def getLatestDm(messages):
-    latest = messages[0]
-    print(latest)
-    # for text in latest:
-    #     print(text)
-    # handles = analysis.find_handle(text)
-    # if handles:
-    #     for handle in handles:
-    #           print(handle)
-
-
-dms = getDms()
-getLatestDm(dms)
 
 # tweets = getTweets()
 # for tweet in tweets:

@@ -29,7 +29,8 @@ def reply_to(tweet):
     '''
     pass
 
-tweets = getTweets()
-for tweet in tweets:
-    if analysis.check_message(tweet.text):
-        reply_to(tweet)
+if __name__ == "__main__":
+    tweets = getTweets()
+    for tweet in tweets:
+        if analysis.check_message(tweet.text):
+            reply_to(tweet)

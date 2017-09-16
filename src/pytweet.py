@@ -31,12 +31,12 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
 
-def get_tweets(bullies):
+def get_tweets(bully):
     '''
     preconditions:
-        @param bullies is an iterable containing the twitter ids (numerical) of users
+        @param bully is the twitter id of a bully
     postconditions:
-        returns a tuple of tweepy status objects consisting of undigested tweets made by the users specified in bullies
+        returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
     '''
     pass
 
@@ -50,6 +50,14 @@ def reply_to(status):
     '''
     tweet_id = status.id #this variable contains the id of the tweepy status object
 
+def get_id_from_handle(handle):
+    '''
+    preconditions:
+        @param handle is a string of a twitter users
+    postconditons:
+        returns the numerical twitter id associated with that handle
+    '''
+    pass
 
 def get_dms():
     try:

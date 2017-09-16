@@ -27,7 +27,7 @@ if __name__ == "__main__":
         f = open("bullies", allmode='r')
         bullies = json.load(f.read())
     except:
-        bullies = []
+        bullies = {}
 
     # get dms
     dms = pytweet.get_dms()
@@ -38,15 +38,15 @@ if __name__ == "__main__":
         handles = analysis.find_handle(dm['text'])
         for handle in handles:
             tid = pytweet.get_id_from_handle(handle)
-            if tid != None:
-                bullies.append([tid,pytweet.get_latest_tweet(tid)])
+            if tid != None and tid not in bullies.keys()]:
+                bullies[tid] = pytweet.get_latest_tweet(tid)
     print("done processing dms, here are the bullies:",bullies)
 
     # get tweets
     tweets = []
-    for bully in bullies:
-        print("getting tweets from bully id",bully[0])
-        tweets = tweets + pytweet.get_tweets(bully[0], bully[1])
+    for bully in bullies.keys():
+        print("getting tweets from bully id",bully)
+        tweets = tweets + pytweet.get_tweets(bully, bullies[bully])
 
 
     # process and reply to abusive tweets

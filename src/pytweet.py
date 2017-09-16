@@ -51,7 +51,10 @@ def get_latest_tweet(bully):
         returns the id of the bully's most recent tweet
     '''
     try:
-        return api.user_timeline(user_id=bully, since_id=latest_tweet)[0]['id']
+        resp = api.user_timeline(user_id=bully, count=1)
+        tweet_id = resp[0]['id']
+        print("new bully's latest tweet is", tweet_id)
+        return tweet_id
     except:
         pass
 

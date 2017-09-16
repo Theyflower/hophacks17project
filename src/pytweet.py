@@ -40,13 +40,8 @@ def get_dms():
 
     try:
         f = open("latest_dm", mode="w")
-        f.write(latest_dm)
+        f.write(str(latest_dm))
+    except:
+        pass
 
     return dms
-
-
-
-# tweets = getTweets()
-# for tweet in tweets:
-#     if analysis.check_message(tweet.text):
-#         reply_to(tweet)

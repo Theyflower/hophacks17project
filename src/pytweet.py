@@ -1,4 +1,4 @@
-import twitter_config
+import twitter_config, analysis
 
 import tweepy
 
@@ -12,7 +12,6 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-
 def getTweets():
     tweets = api.user_timeline('BlakeJoynes8')
     return tweets
@@ -23,7 +22,7 @@ def reply_to(tweet):
     '''
     pass
 
-tweets = get_tweets()
+tweets = getTweets()
 for tweet in tweets:
     if analysis.check_message(tweet.text):
         reply_to(tweet)

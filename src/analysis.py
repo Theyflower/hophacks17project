@@ -25,5 +25,7 @@ def check_message(message):
     resp = pybark.woof(BARK_TOKEN, message)
     resp = json.loads(resp)
     return resp['results']['cyberbullying']['abusive']
+
 def find_handle(status):
-    pass
+    handle = status["sender_screen_name"]
+    return handle

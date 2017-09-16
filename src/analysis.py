@@ -22,9 +22,23 @@ import pybark
 from bark_config import BARK_TOKEN
 
 def check_message(message):
+    '''
+    preconditions:
+        @param message is a string
+    postconditions:
+        returns a boolean
+            True of the message is abusive
+            False if the message is not abusive
+    '''
     resp = pybark.woof(BARK_TOKEN, message)
     resp = json.loads(resp)
-    return resp['results']['cyberbullying']['abusive']
+    abusive = [resp['abusive'],resp['results']['sentiment']['polarity'] in ["VERY_NEGATIVE","NEGATIVE"]]
+    keys2check = ['cyberbullying','profanity']
+    for key in keys2check:
+        abusive.append(resp['results'][key])
+    return sum(abusive) >= 3
+
+
 def find_handle(status):
     '''
     preconditions:

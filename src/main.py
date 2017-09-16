@@ -33,6 +33,7 @@ if __name__ == "__main__":
     dms = pytweet.get_dms()
 
     # process dms and add to bully list
+    print("analysing dms")
     for dm in dms:
         handles = analysis.find_handle(dm['text'])
         for handle in handles:
@@ -41,18 +42,36 @@ if __name__ == "__main__":
                 bullies.append(tid)
     print("done processing dms, here are the bullies:",bullies)
     # get tweets
+    try:
+        f = open("latest_tweet", mode='r')
+        latest_tweet = int(f.read())
+    except:
+        latest_tweet = 1
+
     tweets = []
     for bully in bullies:
-        tweets = tweets + pytweet.get_tweets(bully)
+        print("getting tweets from bully id",bully)
+        tweets = tweets + pytweet.get_tweets(bully, latest_tweet)
+
+    try:
+        f = open("latest_tweet", mode="w")
+        f.write(str(latest_tweet))
+    except:
+        pass
 
     # process tweets
+    print("processing tweets")
     reply_to_these = []
     for tweet in tweets:
         if analysis.check_message(tweet['text']):
+            print("abusive tweet:",tweet['text'])
             reply_to_these.append(tweet)
+        else:
+            print("acceptable tweet:",tweet['text'])
 
     # reply to tweets
     for tweet in reply_to_these:
+        print("replying to tweet with id of",tweet['id'])
         pytweet.reply_to(tweet)
 
     #save the bully list
@@ -61,3 +80,4 @@ if __name__ == "__main__":
         f.write(json.dumps(bullies))
     except:
         pass
+    print("Done!")

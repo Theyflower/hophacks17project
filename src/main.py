@@ -24,7 +24,7 @@ import json
 if __name__ == "__main__":
     #load saved bully list
     try:
-        f = open("bullies", allmode='r')
+        f = open("bullies", mode='r')
         bullies = json.load(f.read())
     except:
         bullies = {}

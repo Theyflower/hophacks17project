@@ -36,8 +36,8 @@ def get_dms():
     except:
         latest_dm = 0
 
-    dms = api.direct_messages(since_id=latest_tweet)
-    latest_dm = dms[0].id
+    dms = api.direct_messages(since_id=latest_dm)
+    latest_dm = dms[0]["id"]
 
     try:
         f = open("latest_dm", mode="w")

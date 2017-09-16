@@ -57,7 +57,8 @@ def get_id_from_handle(handle):
     postconditons:
         returns the numerical twitter id associated with that handle
     '''
-    pass
+    user = api.get_user(screen_name=handle)
+    return user.id
 
 def get_dms():
     try:

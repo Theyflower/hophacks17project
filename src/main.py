@@ -33,12 +33,12 @@ if __name__ == "__main__":
     dms = pytweet.get_dms()
 
     # process dms and add to bully list
-        for dm in dms:
-            handles = analysis.find_handle()
-            for handle in handles:
-                tid = pytweet.get_id_from_handle(handle)
-                if tid != None:
-                    bullies.add(tid)
+    for dm in dms:
+        handles = analysis.find_handle(dm)
+        for handle in handles:
+            tid = pytweet.get_id_from_handle(handle)
+            if tid != None:
+                bullies.add(tid)
 
     # get tweets
     tweets = []

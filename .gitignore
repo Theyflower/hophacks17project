@@ -3,3 +3,5 @@ venv
 *.json
 .idea
 *config.py
+bullies
+latest_dm

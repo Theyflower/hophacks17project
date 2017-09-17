@@ -25,10 +25,13 @@ if __name__ == "__main__":
     #load saved bully list
     try:
         f = open("bullies", mode='r')
-        bullies = json.load(f.read())
-    except:
+        print("opened bullies file successfully")
+        bullies = json.loads(f.read())
+    except Exception as err:
+        print(err)
+        print("Error loading bullies, if there are no bulliest this is to be expected.")
         bullies = {}
-
+    print("beginning bullies is",bullies)
     # get dms
     dms = pytweet.get_dms()
 

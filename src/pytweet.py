@@ -28,7 +28,7 @@ access_token_secret = twitter_config.ACCESS_TOKEN_SECRET
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
+rest_api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
 
 def get_tweets(bully, latest_tweet):
@@ -39,7 +39,7 @@ def get_tweets(bully, latest_tweet):
         returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
     '''
     try:
-        return api.user_timeline(user_id=bully, since_id=latest_tweet, count=1)
+        return rest_api.user_timeline(user_id=bully, since_id=latest_tweet, count=1)
     except:
         pass
 
@@ -51,7 +51,7 @@ def get_latest_tweet(bully):
         returns the id of the bully's most recent tweet
     '''
     try:
-        resp = api.user_timeline(user_id=bully, count=1)
+        resp = rest_api.user_timeline(user_id=bully, count=1)
         tweet_id = resp[0]['id']
         print("new bully's latest tweet is", tweet_id)
         return tweet_id
@@ -67,7 +67,7 @@ def reply_to(status):
     '''
     tweet_id = status['id'] #this variable contains the id of the tweepy status object
     try:
-        api.update_status("@{} don't be a bully".format(status['user']['screen_name']),in_reply_to_status_id=tweet_id)
+        rest_api.update_status("@{} don't be a bully".format(status['user']['screen_name']),in_reply_to_status_id=tweet_id)
     except:
         pass
 
@@ -80,7 +80,7 @@ def get_id_from_handle(handle):
         returns the numerical twitter id associated with that handle
     '''
     try:
-        user = api.get_user(screen_name=handle)
+        user = rest_api.get_user(screen_name=handle)
         return user['id']
     except:
         return None
@@ -93,7 +93,7 @@ def get_dms():
     except:
         latest_dm = 0
 
-    dms = api.direct_messages(since_id=latest_dm)
+    dms = rest_api.direct_messages(since_id=latest_dm)
     if len(dms) > 0:
         latest_dm = dms[0]["id"]
 

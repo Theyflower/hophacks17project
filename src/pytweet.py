@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
+import analysis
 import twitter_config
 
 import tweepy
@@ -28,35 +29,29 @@ access_token_secret = twitter_config.ACCESS_TOKEN_SECRET
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
-api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
+rest_api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
+class BullyStreamListener(tweepy.StreamListener):
 
-def get_tweets(bully, latest_tweet):
-    '''
-    preconditions:
-        @param bully is the twitter id of a bully
-    postconditions:
-        returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
-    '''
-    try:
-        return api.user_timeline(user_id=bully, since_id=latest_tweet, count=1)
-    except:
-        pass
+    self.bullies = []
 
-def get_latest_tweet(bully):
-    '''
-    preconditions:
-        @param bully is the twitter id of a bully
-    postconditions:
-        returns the id of the bully's most recent tweet
-    '''
-    try:
-        resp = api.user_timeline(user_id=bully, count=1)
-        tweet_id = resp[0]['id']
-        print("new bully's latest tweet is", tweet_id)
-        return tweet_id
-    except:
-        pass
+    def on_status(self, status):
+        if analysis.check_message(status['text']):
+            reply_to(status)
+
+    def stream(self, bullies):
+        '''
+        preconditions:
+            @param bullylist is a list of valid twitter ids (i.e. ints above zero)
+        postconditions:
+            starts a stream to the twitter api if all preconditions are met
+            raises a TypeError if the preconditions are not met
+        '''
+        if all(i > 0 and isinstance(i,type(int())) for i in bullies):
+            self.bullies = bullies
+            self.filter(follow=bullies, async=True)
+        raise TypeError("Expecting a list containing only ints above zero")
+
 
 def reply_to(status):
     '''
@@ -67,7 +62,7 @@ def reply_to(status):
     '''
     tweet_id = status['id'] #this variable contains the id of the tweepy status object
     try:
-        api.update_status("@{} don't be a bully".format(status['user']['screen_name']),in_reply_to_status_id=tweet_id)
+        rest_api.update_status("@{} don't be a bully".format(status['user']['screen_name']),in_reply_to_status_id=tweet_id)
     except:
         pass
 
@@ -80,7 +75,7 @@ def get_id_from_handle(handle):
         returns the numerical twitter id associated with that handle
     '''
     try:
-        user = api.get_user(screen_name=handle)
+        user = rest_api.get_user(screen_name=handle)
         return user['id']
     except:
         return None
@@ -93,7 +88,7 @@ def get_dms():
     except:
         latest_dm = 0
 
-    dms = api.direct_messages(since_id=latest_dm)
+    dms = rest_api.direct_messages(since_id=latest_dm)
     if len(dms) > 0:
         latest_dm = dms[0]["id"]
 

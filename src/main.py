@@ -29,27 +29,26 @@ if __name__ == "__main__":
     bullies_updated = True
     try:
         f = open("bullies", mode='r')
-        print("opened bullies file successfully")
         bullies = json.loads(f.read())
     except Exception as err:
         print(err)
         print("Error loading bullies, if there are no bullies this is to be expected.")
         bullies = {}
-    print("beginning bullies is",bullies)
+
+    if isinstance(bullies,type(dict())):
+        bullies = bullies.keys()
 
     while(True):
         # get dms
         dms = pytweet.get_dms()
 
         # process dms and add to bully list
-        print("analysing dms")
         for dm in dms:
             handles = analysis.find_handle(dm['text'])
             for handle in handles:
                 tid = pytweet.get_id_from_handle(handle)
                 if tid != None and tid not in bullies.keys():
-                    bullies[tid] = pytweet.get_latest_tweet(tid)
-        print("done processing dms, here are the bullies:",bullies)
+                    bullies.append(tid)
 
         #sometimes create a stream
         if (bullies_updated):

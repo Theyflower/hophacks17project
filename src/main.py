@@ -29,7 +29,7 @@ if __name__ == "__main__":
         bullies = json.loads(f.read())
     except Exception as err:
         print(err)
-        print("Error loading bullies, if there are no bulliest this is to be expected.")
+        print("Error loading bullies, if there are no bullies this is to be expected.")
         bullies = {}
     print("beginning bullies is",bullies)
     # get dms

@@ -52,33 +52,6 @@ class BullyStreamListener(tweepy.StreamListener):
             self.filter(follow=bullies, async=True)
         raise TypeError("Expecting a list containing only ints above zero")
 
-#no longer used after stream
-def get_tweets(bully, latest_tweet):
-    '''
-    preconditions:
-        @param bully is the twitter id of a bully
-    postconditions:
-        returns a tuple of tweepy status objects consisting of undigested tweets made by the user specified in bully
-    '''
-    try:
-        return rest_api.user_timeline(user_id=bully, since_id=latest_tweet, count=1)
-    except:
-        pass
-
-def get_latest_tweet(bully):
-    '''
-    preconditions:
-        @param bully is the twitter id of a bully
-    postconditions:
-        returns the id of the bully's most recent tweet
-    '''
-    try:
-        resp = rest_api.user_timeline(user_id=bully, count=1)
-        tweet_id = resp[0]['id']
-        print("new bully's latest tweet is", tweet_id)
-        return tweet_id
-    except:
-        pass
 
 def reply_to(status):
     '''

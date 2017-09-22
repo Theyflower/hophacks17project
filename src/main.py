@@ -21,8 +21,12 @@ import pytweet
 import analysis
 
 import json
+import time
+
+
 if __name__ == "__main__":
     #load saved bully list
+    bullies_updated = True
     try:
         f = open("bullies", mode='r')
         print("opened bullies file successfully")
@@ -32,42 +36,31 @@ if __name__ == "__main__":
         print("Error loading bullies, if there are no bullies this is to be expected.")
         bullies = {}
     print("beginning bullies is",bullies)
-    # get dms
-    dms = pytweet.get_dms()
 
-    # process dms and add to bully list
-    print("analysing dms")
-    for dm in dms:
-        handles = analysis.find_handle(dm['text'])
-        for handle in handles:
-            tid = pytweet.get_id_from_handle(handle)
-            if tid != None and tid not in bullies.keys():
-                bullies[tid] = pytweet.get_latest_tweet(tid)
-    print("done processing dms, here are the bullies:",bullies)
+    while(True):
+        # get dms
+        dms = pytweet.get_dms()
 
-    # get tweets
-    tweets = []
-    for bully in bullies.keys():
-        print("getting tweets from bully id",bully)
-        tweets = tweets + pytweet.get_tweets(bully, bullies[bully])
+        # process dms and add to bully list
+        print("analysing dms")
+        for dm in dms:
+            handles = analysis.find_handle(dm['text'])
+            for handle in handles:
+                tid = pytweet.get_id_from_handle(handle)
+                if tid != None and tid not in bullies.keys():
+                    bullies[tid] = pytweet.get_latest_tweet(tid)
+        print("done processing dms, here are the bullies:",bullies)
 
+        #sometimes create a stream
+        if (bullies_updated):
+            bsl = pytweet.BullyStreamListener()
+            bsl.stream()
 
-    # process and reply to abusive tweets
-    print("processing tweets, replying to tweets detected as abusive")
+            #save the bully list
+            try:
+                f = open("bullies", mode='w')
+                f.write(json.dumps(bullies))
+            except:
+                pass
 
-    for tweet in tweets:
-        if analysis.check_message(tweet['text']):
-            print("abusive tweet:",tweet['text'])
-            print("replying to tweet with id of",tweet['id'])
-            pytweet.reply_to(tweet)
-        else:
-            print("acceptable tweet:",tweet['text'])
-
-
-    #save the bully list
-    try:
-        f = open("bullies", mode='w')
-        f.write(json.dumps(bullies))
-    except:
-        pass
-    print("Done!")
+        time.sleep(5 * 60)

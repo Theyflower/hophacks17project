@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
+import analysis
 import twitter_config
 
 import tweepy
@@ -30,7 +31,28 @@ auth.set_access_token(access_token, access_token_secret)
 
 rest_api = tweepy.API(auth,parser=tweepy.parsers.JSONParser())
 
+class BullyStreamListener(tweepy.StreamListener):
 
+    self.bullies = []
+
+    def on_status(self, status):
+        if analysis.check_message(status['text']):
+            reply_to(status)
+
+    def stream(self, bullies):
+        '''
+        preconditions:
+            @param bullylist is a list of valid twitter ids (i.e. ints above zero)
+        postconditions:
+            starts a stream to the twitter api if all preconditions are met
+            raises a TypeError if the preconditions are not met
+        '''
+        if all(i > 0 and isinstance(i,type(int())) for i in bullies):
+            self.bullies = bullies
+            self.filter(follow=bullies, async=True)
+        raise TypeError("Expecting a list containing only ints above zero")
+
+#no longer used after stream
 def get_tweets(bully, latest_tweet):
     '''
     preconditions:
